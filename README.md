@@ -14,4 +14,6 @@ Remember to specify the paths to the two libraries to your compiler (see option 
 
 **To execute:** `./a.out`
 
+## License
+This is an open source project under the GNU GPLv3.
 
