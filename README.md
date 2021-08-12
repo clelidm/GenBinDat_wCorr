@@ -1,7 +1,9 @@
 # GenBinDat_wCorr
 This program generates random binary data with a chosen values of correlation between the variables. 
 
-The correlation of the generated datasets is centered around the specified correlation with a standard deviation of the order of 1/sqrt(N), where N is the number of datapoints of the generated datasets.
+It can also generates data from any specified pairwise models fitted on a given dataset.
+
+The correlation of the generated datasets is centered around the specified correlations (or the correlations of the original dataset) with a standard deviation of the order of 1/sqrt(N), where N is the number of datapoints of the generated datasets.
 
 ## Requirements
 
@@ -26,4 +28,16 @@ This is an open source project under the GNU GPLv3.
 
 ---
 
+## Usage
+
+### Set global variables in the file `data.h`:
+
+Specify:
+ - the number of variables in `const unsigned int n`. 
+If the goal is to fit a dataset and generate data from it, then this number can be smaller or equal to the number of variables in the input dataset. If this number is smaller, then only the first `n` bits (per line) of the dataset will be read (starting from the left);
+ - the location of the input directory in `const string INPUT_directory`: all the input files must be placed in that folder;
+ - the location of the output directory in `const string OUTPUT_directory`: all generated files will be placed in that folder.
+
+### Format of the INPUT FILES:
+the input file should be written as strings of `0`'s and `1`'s, with one datapoint per line; see example in `INPUT/n15_K20_RandM_dataset_N10000.dat`;
 
