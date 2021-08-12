@@ -38,6 +38,6 @@ If the goal is to fit a dataset and generate data from it, then this number can 
  - the location of the input directory in `const string INPUT_directory`: all the input files must be placed in that folder;
  - the location of the output directory in `const string OUTPUT_directory`: all generated files will be placed in that folder.
 
-### Format of the INPUT FILES:
+### INPUT and OUTPUT files:
 the input file should be written as strings of `0`'s and `1`'s, with one datapoint per line; see example in `INPUT/n15_K20_RandM_dataset_N10000.dat`;
 
