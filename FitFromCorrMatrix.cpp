@@ -12,8 +12,7 @@ using namespace std;
 #include "data.h"
 
 /******************************************************************************/
-/**************************   Correlation matrix   ****************************/
-/*******************   Compute the Corr Coeffcients   *************************/
+/********************   Compute the covariance matrix   ***********************/
 /*************************   For a given dataset   ****************************/
 /******************************************************************************/
 //Number of time an operator is equal to 1 ( = <phi> in the {0,1} representation )
@@ -35,8 +34,6 @@ list<CorrelationM> CorrelationMatrix(map<uint32_t, unsigned int> Nset, unsigned 
     Corr.av_D_Bin = op_av_Bin(Nset, Op1, N);
 
     magne[i] = Corr.av_D_Bin;
-    Corr.CorrelationCoeff_Bin = Corr.av_D_Bin;
-
     list_Corr.push_back(Corr);
 
     Op1 = Op1 << 1;
@@ -55,7 +52,8 @@ list<CorrelationM> CorrelationMatrix(map<uint32_t, unsigned int> Nset, unsigned 
       Corr.Op = Op;
       Corr.av_D_Bin = op_av_Bin(Nset, Op, N);
 
-      Corr.CorrelationCoeff_Bin = Corr.av_D_Bin - magne[i]*magne[j];
+      Corr.Cov_Bin = Corr.av_D_Bin - magne[i]*magne[j];   // covariance
+      Corr.Corr_Bin = Corr.Cov_Bin/sqrt((magne[i]-magne[i]*magne[i])*(magne[j]-magne[j]*magne[j]));  // Pearson correlation
 
       list_Corr.push_back(Corr);
 
@@ -73,7 +71,7 @@ list<CorrelationM> CorrelationMatrix(map<uint32_t, unsigned int> Nset, unsigned 
 void Print_Term_CorrelationMatrix(list<CorrelationM> list_Corr)
 {
   list<CorrelationM>::iterator it_corr;
-  cout << "# 1:Op   2:Emp_av_Ising  3:Emp_av_{0,1}   4:CorrCoeff_{0,1}" << endl;
+  cout << "# 1:Op   2:Emp_av_Ising  3:Emp_av_{0,1}   4:Covariance_{0,1}   5:PearsonCorrelation_{0,1}" << endl;
 
   for(it_corr = list_Corr.begin(); it_corr != list_Corr.end(); it_corr++)
   {
@@ -82,7 +80,8 @@ void Print_Term_CorrelationMatrix(list<CorrelationM> list_Corr)
 
     if(bitset<n>((*it_corr).Op).count() == 2)
     {
-      cout << " \t CorrCoeff_{0,1} = " << (*it_corr).CorrelationCoeff_Bin;
+      cout << " \t Covariance_{0,1} = " << (*it_corr).Cov_Bin;
+      cout << " \t CorrCoeff_{0,1} = " << (*it_corr).Corr_Bin;
     }
     cout << endl;
   }
@@ -112,7 +111,9 @@ list<double> Read_Input_MatrixFile(string Input_Matrix_File)
       { 
         //cout << av_D << endl;
         list_MatrixValues.push_back(av_D);  
+        cout << "temp = " << temp << endl;
       }
+      else {cout << "else temp = " << temp << endl;}
 
       temp = "";
       sstream.str("");
@@ -157,9 +158,9 @@ list<Interaction> ModelFrom_MomentMatrix(string MomentMatrix_File, bool *error)
   return list_I;  
 }
 
-list<Interaction> ModelFrom_CorrMatrix(string CorrMatrix_File, bool *error)
+list<Interaction> ModelFrom_CovMatrix(string CovMatrix_File, bool *error)
 {
-  list<double> list_MatrixValues = Read_Input_MatrixFile(CorrMatrix_File);
+  list<double> list_MatrixValues = Read_Input_MatrixFile(CovMatrix_File);
 
   list<Interaction> list_I;
 
@@ -208,6 +209,69 @@ list<Interaction> ModelFrom_CorrMatrix(string CorrMatrix_File, bool *error)
       
         Op2 = Op2 << 1; 
         it_av++;
+      }
+      Op1 = Op1 << 1;      
+    }
+  }
+
+  return list_I;
+}
+
+
+list<Interaction> ModelFrom_CorrMatrix(string CorrMatrix_File, bool *error)
+{
+  list<double> list_MatrixValues = Read_Input_MatrixFile(CorrMatrix_File);
+
+  list<Interaction> list_I;
+
+  int K = n*(n+1)/2;
+  if (list_MatrixValues.size()!=K) 
+  { 
+    cout << "Error: the number of lines in the Correlation matrix file does not match with ";
+    cout << "the number `n` of neurons specified in `data.h`. The number of lines should be n(n+1)/2." << endl; 
+    *error = true;
+  }
+  else
+  {
+    *error = false;
+    Interaction I;
+    I.g_Ising = 0;  I.g_Bin = 0;  I.av_M = 0;
+
+    double* magne = (double*)malloc(n*sizeof(double));  // magne[i] = <si>,  for si in {0,1}
+    double* std = (double*)malloc(n*sizeof(double));    // std[i] = <si^2> -<si>^2 =  <si> -<si>^2,   for si in {0,1}
+
+    uint32_t Op1 = 1, Op2 = 1;
+
+    list<double>::iterator it_Matrix = list_MatrixValues.begin();
+
+    I.k = 1;
+    for(int i=0; i<n; i++) // n fields
+    {
+      I.Op = Op1;
+      I.av_D = *it_Matrix;
+      list_I.push_back(I);    
+
+      magne[i] = I.av_D;
+      std[i] = sqrt(magne[i]-magne[i]*magne[i]);
+
+      Op1 = Op1 << 1;
+      it_Matrix++;
+    }
+
+    Op1 = 1;
+
+    I.k = 2;
+    for(int i=0; i<n; i++) // n(n-1)/2 pairwise interactions
+    {    
+      Op2 = Op1 << 1;
+      for (int j=i+1; j<n; j++)
+      {
+        I.Op = Op1 + Op2; 
+        I.av_D = (*it_Matrix) * std[i] * std[j] + magne[i] * magne[j];
+        list_I.push_back(I);
+      
+        Op2 = Op2 << 1; 
+        it_Matrix++;
       }
       Op1 = Op1 << 1;      
     }

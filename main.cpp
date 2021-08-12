@@ -55,8 +55,8 @@ void Print_Term_CorrelationMatrix(list<CorrelationM> list_Corr);
 /*************************  MODEL FROM CORRELATION MATRIX *********************/
 /**************************   in FitFromCorrMatrix.cpp     ********************/
 /******************************************************************************/
-//double BoltzmannLearning_Ising_CorrMatrix(string CorrMatrix_File, unsigned int N);
 list<Interaction> ModelFrom_MomentMatrix(string MomentMatrix_File, bool *error);
+list<Interaction> ModelFrom_CovMatrix(string CovMatrix_File, bool *error);
 list<Interaction> ModelFrom_CorrMatrix(string CorrMatrix_File, bool *error);
 
 /******************************************************************************/
@@ -178,12 +178,18 @@ int main()
   string InputFile_Ex_Moments = "INPUT/Matrix/Ex_Moments_n4_Bin.dat";
   unsigned int N_Matrix = 1000;  // number of datapoints in the datafile for which the correlation matrix is provided 
 
-  cout << endl << "The file should contain 1rst and 2nd order moments of the binary variables." << endl;
+  cout << "The file should contain 1rst and 2nd order moments of the binary variables." << endl << endl;
   cout << "The binary variables Si should take values `0` or `1`, so that the moments are computed as:" << endl;
   cout << "\t \t 1rst order: <Si> = P[Si=1] in the data,  i.e. the probability that Si is equal to 1 in the data;" << endl;
-  cout << "\t \t \t \t \t \t  --> for neuronal data, that would similar to the firing rate;" << endl;
+  cout << "\t \t \t \t --> for neuronal data, that would similar to the firing rate;" << endl;
   cout << "\t \t 2nd order:  <Si Sj> = P[Si=1 and Sj=1],  i.e. the probability that Si and Sj are both equal to 1 in the data;" << endl;
-  cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Moments << endl;
+  cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Moments << endl << endl;
+
+  cout << "Important: !! Value of the moments can variate between 0 and 1 !!" << endl;
+  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)" << endl;
+  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1)," << endl;
+  cout << "\t which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)" << endl;
+  cout << "\t ==> don’t use exactly 0 or 1" << endl << endl;
 
   cout << "***********" << endl;
   bool error = false;
@@ -196,18 +202,62 @@ int main()
     PrintTerm_ListInteraction (list_I_MomentMatrix_Bin);
   }
 
-  cout << endl << "*********************  Ex 3.b. from the matrix of Correlations:  ****************************" << endl;
+  cout << endl << "*********************  Ex 3.b. from the covariance matrix:  *******************************" << endl;
 
-  string InputFile_Ex_Corr = "INPUT/Matrix/Ex_CorrCoeff_n4_Bin.dat";
+  string InputFile_Ex_Cov = "INPUT/Matrix/Ex_Cov_n4_Bin.dat";
 
-  cout << endl << "The file should contain 1rst order moments of the binary variables and the correlation coefficients." << endl;
+  cout << "The file should contain 1rst order moments of the binary variables and the correlation coefficients." << endl << endl;
   cout << "The binary variables Si should take values `0` or `1`, so that the quantities are computed as:" << endl;
   cout << "\t \t 1rst order moment: <Si> = P[Si=1] in the data,  i.e. the probability that Si is equal to 1 in the data;" << endl;
-  cout << "\t \t \t \t \t \t  --> for neuronal data, that would similar to the firing rate;" << endl;
-  cout << "\t \t Correlation Coefficients:  Corr(i,j) = <Si Sj> - <Si> <Sj> , where <Si Sj> are the 2nd order moments defined as:" << endl;
-  cout << "\t \t \t \t \t \t <Si Sj> = P[Si=1 and Sj=1],  which is the probability that Si and Sj are both equal to 1 in the data;" << endl;
+  cout << "\t \t \t \t  --> for neuronal data, that would similar to the firing rate;" << endl;
+  cout << "\t \t Covariance:  Cov(i,j) = <Si Sj> - <Si> <Sj> , where <Si Sj> are the 2nd order moments defined as:" << endl;
+  cout << "\t \t \t \t <Si Sj> = P[Si=1 and Sj=1],  which is the probability that Si and Sj are both equal to 1 in the data;" << endl;
 
-  cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Corr << endl;
+  cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Cov << endl << endl;
+
+
+  cout << "Important: !! Use realistic values of the covariance: !!" << endl;
+  cout << "The value of the moments (i.e., <si> and <si sj>) can variate between 0 and 1," << endl;
+  cout << "You must take covariance values such that this is respected." << endl;
+  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)" << endl;
+  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1)," << endl; 
+  cout << "\t which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)"<< endl;
+  cout << " ==> don’t use exactly 0 or 1" << endl;
+
+  cout << "***********" << endl;
+  list<Interaction> list_I_CovMatrix_Bin = ModelFrom_CovMatrix(InputFile_Ex_Cov, &error);
+  if (!error)
+  {
+    L = BoltzmannLearning_Bin(list_I_CovMatrix_Bin, N_Matrix);
+    cout << "Max Log-Likelihood, L = " << L << endl;
+    cout << "BIC: " << L - K * log( ((double) N_Matrix) /(2.*M_PI)) / 2. <<  endl << endl;
+    PrintTerm_ListInteraction (list_I_CovMatrix_Bin);
+  }
+
+  cout << endl << "*********************  Ex 3.c. from Pearson correlation matrix:  *************************" << endl;
+
+  string InputFile_Ex_Corr = "INPUT/Matrix/Ex_PearsonCorr_n4_Bin.dat";
+
+  cout << "The file should contain 1rst order moments of the binary variables and the correlation coefficients." << endl << endl;
+  cout << "The binary variables Si should take values `0` or `1`, so that the quantities are computed as:" << endl;
+  cout << "\t \t 1rst order moment: <Si> = P[Si=1] in the data,  i.e. the probability that Si is equal to 1 in the data;" << endl;
+  cout << "\t \t \t \t  --> for neuronal data, that would similar to the firing rate;" << endl;
+  cout << "\t \t Correlation Coeff:  Corr(i,j) = (<Si Sj> - <Si> <Sj>)/sig_i/sig_j , where <Si Sj> are the 2nd order moments defined as:" << endl;
+  cout << "\t \t \t \t <Si Sj> = P[Si=1 and Sj=1],  which is the probability that Si and Sj are both equal to 1 in the data;" << endl;
+  cout << "\t \t and where sig_i is the standard deviation of Si defined as:" << endl;
+  cout << "\t \t \t \t sig_i = std(<Si^2> - <Si>^2), which is equal to sig_i = std(<Si> - <Si>^2) for the binary variable Si in {0,1}" << endl;
+
+  cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Cov << endl;
+
+  cout << "Important: !! Use realistic values !!" << endl;
+  cout << "Pearson correlation coefficients can take any values between -1 and 1" << endl;
+  cout << "The value of the moments (i.e., <si> and <si sj>) can variate between 0 and 1," << endl;
+
+  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)" << endl;
+  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1)," << endl; 
+  cout << "\t which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)"<< endl;
+  cout << " ==> don’t use exactly 0 or 1" << endl;
+  cout << "Pearson correlation coefficient exactly equal to -1 or 1 are also not reproducible" << endl;
 
   cout << "***********" << endl;
   list<Interaction> list_I_CorrMatrix_Bin = ModelFrom_CorrMatrix(InputFile_Ex_Corr, &error);
@@ -233,21 +283,22 @@ int main()
 
   unsigned int N_new = 1e5;
 
-  cout << "Generate a dataset with N = " << N_new << " datapoints, stored in " << OUTPUT_Data << endl;
-  SampleData_AND_SaveDataInfo_Bin(list_I_CorrMatrix_Bin, OUTPUT_Data, N_new);
+  cout << "Generate a dataset with N = " << N_new << " datapoints, stored in " << OUTPUT_Data << endl << endl;
+  SampleData_AND_SaveDataInfo_Bin(list_I_CovMatrix_Bin, OUTPUT_Data, N_new);
 
-  cout << "Info about the model and the generated data:" << endl;
-  PrintFile_ModelDataInfo_Bin(list_I_CorrMatrix_Bin, OUTPUT_Data_Info, N_new);
-  PrintTerm_ModelDataInfo_Bin(list_I_CorrMatrix_Bin, N_new);
+  cout << "and record Info about the model and the generated data:" << endl;
+  PrintFile_ModelDataInfo_Bin(list_I_CovMatrix_Bin, OUTPUT_Data_Info, N_new);
+  PrintTerm_ModelDataInfo_Bin(list_I_CovMatrix_Bin, N_new);
 
   cout << "Correlation matrix of the generated data:" << endl;
   map<uint32_t, unsigned int> Nset_Bin = read_datafile(OUTPUT_Data, &N_new);  //  double Nd = (double) N;
   Print_Term_CorrelationMatrix(CorrelationMatrix(Nset_Bin, N_new));
 
+  cout << "***********" << endl;
   OUTPUT_Data = OutputFile_Ex_DataFromCorr + "_Data2.dat";
   cout << "Generate a second dataset with N = " << N_new << " datapoints based on the same correlation matrix." << endl;
   cout << "Dataset is stored in " << OUTPUT_Data << endl << endl;
-  SampleData_Bin(list_I_CorrMatrix_Bin, OUTPUT_Data, N_new);
+  SampleData_Bin(list_I_CovMatrix_Bin, OUTPUT_Data, N_new);
 
   return 0;
 }

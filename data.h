@@ -42,6 +42,7 @@ struct CorrelationM
 {
   uint32_t Op;      // binary operator associated to the interaction
   double av_D_Bin;        // empirical average ("D" for data) in the {0, 1}-convention
-  double CorrelationCoeff_Bin;  // Correlation Coefficient in the {0, 1}-convention  
+  double Cov_Bin;  // Covariance Coefficients in the {0, 1}-convention  
+  double Corr_Bin;  // Pearson Correlation Coefficients in the {0, 1}-convention  
 };
 
