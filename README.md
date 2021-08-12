@@ -1,7 +1,7 @@
 # GenBinDat_wCorr
-This program generates random binary data with a chosen values of correlation between the variables. 
+This program generates random binary data with a chosen values of correlation between the variables. To do so it fits a fully connected pairwise spin models to reproduce the specified correlation patterns.
 
-It can also generates data from any specified pairwise models fitted on a given dataset.
+The program can also generates data from any specified pairwise models fitted on a given dataset.
 
 The correlation of the generated datasets is centered around the specified correlations (or the correlations of the original dataset) with a standard deviation of the order of 1/sqrt(N), where N is the number of datapoints of the generated datasets.
 
