@@ -123,7 +123,7 @@ You can then print this information in the terminal using `void PrintTerm_ModelD
 
 This functions are defined in the file `Generate_data_exact.cpp`.
 
-## Available functions for generating data with same firing rate and correlation structure than an input dataset
+## Available functions for generating data with same firing rate and spatial correlation structure than an input dataset
 
 ### Read and store the input dataset:
 The function `map<uint32_t, unsigned int> read_datafile(string datafilename, unsigned int *N)` reads the dataset provided as an argument in the variable  `string datafilename`. See section `INPUT and OUTPUT file` of this document for information on the format of the input datafile.
