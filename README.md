@@ -99,7 +99,11 @@ Pearson correlation coefficient exactly equal to `-1` or `1` are also not reprod
 
 ### Read the matrix of moments, covariance or correlations
 
+To create a spin model that can reproduce specific values of first and second moments of the binary variables, we first generated a fully connected pairwise model and then fits its parameters to reproduce the specified moments.
+
 ### Fit the data with a model:
+
+To fit a fully connected pairwise model defined in `list_I` on the chosen values of the 1rst and 2nd order moments (same for covariance or correlations), use the function `double BoltzmannLearning_Bin(list<Interaction> &list_I, unsigned int N)`. The argument `unsigned int N` is the number of datapoints in the dataset (real or fictive) that was used to generated the moments/covariance matrix/correlations.
 
 After fitting, the fitted parameters are stored in the list of interactions `list_I` that was given as an argument to the Boltzmann learning function.
 You can print the values of these parameters in the terminal using the function `void PrintTerm_ListInteraction(list<Interaction> list_I)`.
