@@ -95,14 +95,27 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
  ==> don’t use exactly `0` or `1`
 Pearson correlation coefficient exactly equal to `-1` or `1` are also not reproducible
 
-### Available functions for generating data with a given matrix of moments, covariance, or correlations:
+## Available functions for generating data with a given matrix of moments, covariance, or correlations
 
+### Read and store the input dataset:
+The function map<uint32_t, unsigned int> read_datafile(unsigned int *N) reads the dataset available at the location specified in the variable const string datafilename in data.h. The dataset is then stored in the a structure map<uint32_t, unsigned int> Nset that map each observed states to the number of times they occur in the dataset.
 
+### Fit the data with a model:
 
-### Available functions for generating data with same firing rate and correlation structure than an input dataset:
+### Generate data from the model:
 
+## Available functions for generating data with same firing rate and correlation structure than an input dataset
 
+### Read the matrix of moments, covariance or correlations
 
+### Fit the data with a model:
 
+After fitting, the fitted parameters are available in the list of interactions `list_I` that was given as an argument to the Boltzmann_learning function.
+You can print the values of these parameters in the terminal using the function `void PrintTerm_ListInteraction(list<Interaction> list_I)`.
 
+### Generate data from the model:
+Once the model is fitted, you can generate data from it using one of the two following functions:
+ - The function `void Sample_dataset(list<Interaction> list_I, string output_filename, unsigned int N=1000)` samples a dataset with `N` datapoints from the fitted model defined in `list_I`.
+ - The function void Sample_dataset_AND_Print_ModelData_Info(list<Interaction>& list_I, string output_filename, unsigned int N=1000) does the same, while also filling in information about the model and the data in the Interactions of list_I. More precisely, the function computes the model and data averages of the operators of the model and fill this information in list_I (i.e., respectively in I.av_M and I.av_D for each interaction I).
+This functions are defined in the file `Generate_data_exact.cpp`.
 
