@@ -41,9 +41,9 @@ If the goal is to fit a dataset and generate data from it, then this number can 
 ### INPUT and OUTPUT files:
 
 Input files must be stored in the INPUT folder. Depending on the functions you are using, you must provide the following input files:
- - *a binary datafile*, if the model is fitted from a given dataset; The input file should be written as strings of `0`'s and `1`'s, with one datapoint per line; see example in `INPUT/Ex_n15_K10_RandM0_dataset_N1000.dat`;
- - a model file, if the chosen model is a pairwise model that is not fully connected; Interactions of the fitted models are provided through a file that contains one interaction per line; interactions can be provided in a binary format, with a `1` for each variable included in the interaction and a `0` for the other variable; see example in `Ex_PairwiseModel_n4.dat`;
- - a "matrix file", if you want to generate data with a specific values of a) the moments, or b) the covariance, or c) the Pearson correlation coefficients;
+ - **a binary datafile**, if the model is fitted from a given dataset; The input file should be written as strings of `0`'s and `1`'s, with one datapoint per line; see example in `INPUT/Ex_n15_K10_RandM0_dataset_N1000.dat`;
+ - **a model file**, if the chosen model is a pairwise model that is not fully connected; Interactions of the fitted models are provided through a file that contains one interaction per line; interactions can be provided in a binary format, with a `1` for each variable included in the interaction and a `0` for the other variable; see example in `Ex_PairwiseModel_n4.dat`;
+ - **a "matrix file"**, if you want to generate data with a specific values of a) the moments, or b) the covariance, or c) the Pearson correlation coefficients;
 
 
 
