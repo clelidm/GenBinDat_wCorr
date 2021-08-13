@@ -48,7 +48,7 @@ Input files must be stored in the INPUT folder. Depending on the functions you a
  #### a) **Specifying the matrix of moments** (see example in `INPUT/Matrix/Ex_Moments_n4_Bin.dat`)
  
 The file must contain 1rst and 2nd order moments of the binary variables. The binary variables `Si` must take values `0` or `1`, so that the moments are computed as:
- - 1rst order: `<Si> = P[Si=1]` in the data, which is the probability that `Si` is equal to `1` in the data (for neuronal data, this would similar to the firing rate);
+ - 1rst order: `<Si> = P[Si=1]` in the data, which is the probability that `Si` is equal to `1` in the data (for neuronal data, this is similar to the firing rate of the neurons);
  - 2nd order:  `<Si Sj> = P[Si=1 and Sj=1]`,  which is the probability that `Si` and `Sj` are both equal to `1` in the data;
 
 The input file should be written following the format of the example file: `INPUT/Matrix/Ex_Moments_n4_Bin.dat`
@@ -63,7 +63,7 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
 
 The file must contain 1rst order moments of the binary variables and the coefficients of the covariance matrix.
 The binary variables `Si` should take values `0` or `1`, so that these quantities are computed as:
- - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data (for neuronal data, that would similar to the firing rate);
+ - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data (for neuronal data, this is similar to the firing rate of the neurons);
  - Covariance:  `Cov(i,j) = <Si Sj> - <Si> <Sj>` , where `<Si Sj>` are the 2nd order moments defined as:
 	 	 	 	 `<Si Sj> = P[Si=1 and Sj=1]`,  which is the probability that `Si` and `Sj` are both equal to `1` in the data;
 
@@ -79,7 +79,7 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
 #### c) **Specifying the Pearson correlation matrix** (see example in `INPUT/Matrix/Ex_Cov_n4_Bin.dat`)
 
 The file must contain 1rst order moments of the binary variables and the correlation coefficients. The binary variables `Si` should take values `0` or `1`, so that the quantities are computed as:
- - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data (for neuronal data, this would similar to the firing rate);
+ - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data (for neuronal data, this is similar to the firing rate of the neurons);
  - Correlation Coeff:  `Corr(i,j) = (<Si Sj> - <Si> <Sj>)/sig_i/sig_j` , where `<Si Sj>` are the 2nd order moments defined as:
 	 	 	 	 `<Si Sj> = P[Si=1 and Sj=1]`,  which is the probability that `Si` and `Sj` are both equal to `1` in the data;
 	 	 and where `sig_i` is the standard deviation of `Si` defined as:
