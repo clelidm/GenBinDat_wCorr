@@ -106,6 +106,42 @@ You can print this information using the function `void PrintFile_Nset (map<uint
 
 ### Define a model:
 
+A spin model is stored in a list of `Interaction`:  `list<Interaction>`.
+For more information, the structure `Interaction` is defined in `data.h`. 
+Each `Interaction I` contains the following attributes:
+ - the spin operator associated to that interaction, stored as an integer in `I.Op`;
+ - the value of the real parameter `I.g` associated to the interaction, stored in `double I.g`;
+ - the value of the model average of the operator `I.Op`, stored in `I.av_M`;  --> this value is initially set to `0`, and can be computed after definition of the model 
+ - the value of the empirical average of the operator `I.Op`, stored in `I.av_D` --> this value is initially set to `0`, and can be computed when a dataset is generated.
+
+list_I = list of operators and parameters of the model
+
+The program offers different ways to define a spin model (i.e., a list of interactions `list<Interaction>`).  These functions are defined in the file `Models_Ex.cpp`. Here is a list:
+
+#### Pre-defined spin models:
+ - **Independent model**: the function `list<Interaction> IndepModel(double h=1)` creates an independent model with one field on each spin variable; the value of each field parameters is uniformly sampled over `[-h; +h]`.
+ - **Fully connected pairwise model**: the function `list<Interaction> FullyConnectedPairwiseModel(double h=1, double J=1)` creates a fully connected pairwise model, i.e., with a field on each spin  and all the pairwise interactions; the resulting model has `K=n(n+1)/2` interactions. The value of each field parameters is uniformly sampled over `[-h, +h]`; the values of each pairwise parameter is uniformly sampled over `[-J, +J]`.
+
+#### Random spin models:
+ - **Random pairwise model**: the function `list<Interaction> Random_PairwiseModel(int Kpair, double h=1, double J=1)` creates a model with all the `n` fields and `Kpair` randomly picked pairwise interactions; in total the model has `K = n+Kpair` interactions; the value of each field parameters is uniformly sampled over `[-h, +h]`; the values of each pairwise parameter is uniformly sampled over `[-J, +J]`.
+ - **Random spin model**: the function `list<Interaction> Random_Model(int K, double g=1)` creates a model with `K` randomly picked spin interactions (interactions can be of any order); the value of each parameters is uniformly sampled over `[-g, +g]`.
+
+#### Spin models specified by the user through an input file: (see example 3 in the `int main()` function)
+Specific models can be uploaded through an input file. The input file must have the following form (see example in "INPUT/"):
+ - the operator of the model must be written in the first column, in one of these two formats:
+   - (a) as a binary representation of the spin involved in the interaction; 
+   - (b) as the integer value of that binary representation.
+ - the parameters specifying the strength of the interactions must be written in the second column.
+
+Here are some examples of the two representations of an operator in a 4-spin system:  
+ - a field operator on the last digit would be encoded as the binary number `0001`, which has the decimal integer value `1`  -->   0001 = 1
+ - a pairwise operator s1 and s2 would be written as the binary number `0011`,  which has the integer representation `3`  -->   0011 = 3
+
+See `/INPUT/Model_Ex_BinaryRepresentation.dat` for an example of a file written in format (a), and `/INPUT/Model_Ex_IntegerRepresentation.dat` for an example of a file written in format (b).
+
+Two read these files from the `int main()` function, use the function:
+ - `list<Interaction> ReadFile_Model_BinaryRepresentation(string Model_inputfile)` if the operators are written under binary format (a);
+ - `list<Interaction> ReadFile_Model_IntegerRepresentation(string Model_inputfile)` if the operators are written under integer format (b);
 
 ### Fit the data with a model:
 To fit a model previously defined in `list_I` on the dataset stored in `Nset`, use the function `double BoltzmannLearning_Bin_FromData(map<uint32_t, unsigned int> Nset, list<Interaction> &list_I, unsigned int N)`. The argument `unsigned int N` is the number of datapoints in the original datafile, that is computed by the function `read_datafile` (see example in `main.cpp`).
