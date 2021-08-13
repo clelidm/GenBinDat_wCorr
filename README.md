@@ -70,9 +70,7 @@ The binary variables `Si` should take values `0` or `1`, so that these quantitie
 
 The input file should be written following the format of the example file: `INPUT/Matrix/Ex_Cov_n4_Bin.dat`
 
-*Important:* Use realistic values of the covariance:
-
-The value of the moments (i.e., `<si>` and `<si sj>`) can variate between `0` and `1`,
+*Important:* Use realistic values of the covariance. The value of the moments (i.e., `<si>` and `<si sj>`) can variate between `0` and `1`,
 You must take covariance values such that this is respected.
 A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability that `Si=1` is `0.5`)
 	 whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that `Si=1` is `0` or `1`),
@@ -90,8 +88,8 @@ The file must contain 1rst order moments of the binary variables and the correla
 	 	 	 	 `sig_i = std(<Si^2> - <Si>^2)`, which is equal to `sig_i = std(<Si> - <Si>^2)` for the binary variable `Si` in `{0,1}`
 
 The input file should be written following the format of the example file: `INPUT/Matrix/Ex_Cov_n4_Bin.dat`
-*Important:* Use realistic values of Pearson correlation:
-Pearson correlation coefficients can take any values between `-1` and `1`.
+
+*Important:* Use realistic values of Pearson correlation. Pearson correlation coefficients can take any values between `-1` and `1`.
 The value of the moments (i.e., `<si>` and `<si sj>`) can variate between `0` and `1`,
 A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability that `Si=1` is `0.5`)
 	 whereas a moment equal to `0` or `1` corresponding to an extreme biased observable (e.g., probability that `Si=1` is `0` or `1`),
