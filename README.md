@@ -97,6 +97,23 @@ Pearson correlation coefficient exactly equal to `-1` or `1` are also not reprod
 
 ## Available functions for generating data with a given matrix of moments, covariance, or correlations
 
+### Read the matrix of moments, covariance or correlations
+
+### Fit the data with a model:
+
+After fitting, the fitted parameters are stored in the list of interactions `list_I` that was given as an argument to the Boltzmann learning function.
+You can print the values of these parameters in the terminal using the function `void PrintTerm_ListInteraction(list<Interaction> list_I)`.
+
+### Generate data from the model:
+Once the model stored in `list_I` is fitted, there are two functions available to generate data:
+ - the function `void SampleData_Bin(list<Interaction> list_I, string outputfilename, unsigned int N=1000)` samples a dataset with `N` datapoints from the fitted model defined in `list_I` and print the dataset in `outputfilename`;
+ - the function `void SampleData_AND_SaveDataInfo_Bin(list<Interaction>& list_I, string outputfilename, unsigned int N=1000)` does the same, while also filling in information about the model and the generated data in `list_I`. More precisely, the function computes the model and data averages of the operators of the model and fill this information in `list_I` (i.e., respectively in `I.av_M` and `I.av_D` for each interaction `I`).
+You can then print this information in the terminal using `void PrintTerm_ModelDataInfo_Bin(list<Interaction> list_I, unsigned int N=1)`, or in an outputfile specified in `outputfilename` using `void PrintFile_ModelDataInfo_Bin(list<Interaction> list_I, string outputfilename, unsigned int N=1)`, where `N` is the number of datapoints of the generated dataset.
+
+This functions are defined in the file `Generate_data_exact.cpp`.
+
+## Available functions for generating data with same firing rate and correlation structure than an input dataset
+
 ### Read and store the input dataset:
 The function `map<uint32_t, unsigned int> read_datafile(string datafilename, unsigned int *N)` reads the dataset provided as an argument in the variable  `string datafilename`. See section `INPUT and OUTPUT file` of this document for information on the format of the input datafile.
 The argument `unsigned int *N` is a pointer in which the function will store the total number of datapoints found in the datafile (see example of usage in `main.cpp`). 
@@ -152,22 +169,3 @@ Once the model stored in `list_I` is fitted, there are two functions available t
 You can then print this information in the terminal using `void PrintTerm_ModelDataInfo_Bin(list<Interaction> list_I, unsigned int N=1)`, or in an outputfile specified in `outputfilename` using `void PrintFile_ModelDataInfo_Bin(list<Interaction> list_I, string outputfilename, unsigned int N=1)`, where `N` is the number of datapoints of the generated dataset.
 
 This functions are defined in the file `Generate_data_exact.cpp`.
-
-## Available functions
-## for generating data with same firing rate and correlation structure than an input dataset
-
-### Read the matrix of moments, covariance or correlations
-
-### Fit the data with a model:
-
-After fitting, the fitted parameters are stored in the list of interactions `list_I` that was given as an argument to the Boltzmann learning function.
-You can print the values of these parameters in the terminal using the function `void PrintTerm_ListInteraction(list<Interaction> list_I)`.
-
-### Generate data from the model:
-Once the model stored in `list_I` is fitted, there are two functions available to generate data:
- - the function `void SampleData_Bin(list<Interaction> list_I, string outputfilename, unsigned int N=1000)` samples a dataset with `N` datapoints from the fitted model defined in `list_I` and print the dataset in `outputfilename`;
- - the function `void SampleData_AND_SaveDataInfo_Bin(list<Interaction>& list_I, string outputfilename, unsigned int N=1000)` does the same, while also filling in information about the model and the generated data in `list_I`. More precisely, the function computes the model and data averages of the operators of the model and fill this information in `list_I` (i.e., respectively in `I.av_M` and `I.av_D` for each interaction `I`).
-You can then print this information in the terminal using `void PrintTerm_ModelDataInfo_Bin(list<Interaction> list_I, unsigned int N=1)`, or in an outputfile specified in `outputfilename` using `void PrintFile_ModelDataInfo_Bin(list<Interaction> list_I, string outputfilename, unsigned int N=1)`, where `N` is the number of datapoints of the generated dataset.
-
-This functions are defined in the file `Generate_data_exact.cpp`.
-
