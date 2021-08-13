@@ -24,7 +24,7 @@ using namespace std;
 /**************************     READ FILE    **********************************/
 /******************************************************************************/
 map<uint32_t, unsigned int> read_datafile(string datafilename, unsigned int *N);   // O(N)  //N = data set size  //READ DATA and STORE them in Nset
-void read_Nset (map<uint32_t, unsigned int> Nset, unsigned int N, string OUTPUTfilename); // PRINT Nset in a file  
+void PrintFile_Nset (map<uint32_t, unsigned int> Nset, unsigned int N, string OUTPUTfilename); // PRINT Nset in a file  
 
 /******************************************************************************/
 /*************************  MODEL: LIST of INTERACTIONS ***********************/
@@ -109,7 +109,7 @@ int main()
   string OUTPUT_Data_Filename = OUTPUT_directory + "Ex_n15_K10_RandM0_dataset_N1000.dat";
 
   map<uint32_t, unsigned int> Nset = read_datafile(INPUT_Data_Filename, &N);  //  double Nd = (double) N;
-  read_Nset(Nset, N, OUTPUT_Data_Filename + "_Nset.dat");   // print Nset in a file
+  PrintFile_Nset(Nset, N, OUTPUT_Data_Filename + "_Nset.dat");   // print Nset in a file
 
   cout << endl << "*****************************  Ex 1.a. Independent model:  *********************************" << endl;
   cout << "--->> Inferred field for the Independent Model associated to the dataset '" << INPUT_Data_Filename << "'" << endl << endl;
@@ -186,8 +186,8 @@ int main()
   cout << endl << "The input file should be written following the format of the example file: " << InputFile_Ex_Moments << endl << endl;
 
   cout << "Important: !! Value of the moments can variate between 0 and 1 !!" << endl;
-  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)" << endl;
-  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1)," << endl;
+  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that Si=1 is 0.5)" << endl;
+  cout << "\t whereas a moment equal to 0 or 1 corresponds to an extreme biased observable (e.g., probability that Si=1 is 0 or 1)," << endl;
   cout << "\t which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)" << endl;
   cout << "\t ==> don’t use exactly 0 or 1" << endl << endl;
 
@@ -206,8 +206,8 @@ int main()
 
   string InputFile_Ex_Cov = "INPUT/Matrix/Ex_Cov_n4_Bin.dat";
 
-  cout << "The file should contain 1rst order moments of the binary variables and the correlation coefficients." << endl << endl;
-  cout << "The binary variables Si should take values `0` or `1`, so that the quantities are computed as:" << endl;
+  cout << "The file should contain 1rst order moments of the binary variables and the coefficients of the covariance matrix." << endl << endl;
+  cout << "The binary variables Si should take values `0` or `1`, so that these quantities are computed as:" << endl;
   cout << "\t \t 1rst order moment: <Si> = P[Si=1] in the data,  i.e. the probability that Si is equal to 1 in the data;" << endl;
   cout << "\t \t \t \t  --> for neuronal data, that would similar to the firing rate;" << endl;
   cout << "\t \t Covariance:  Cov(i,j) = <Si Sj> - <Si> <Sj> , where <Si Sj> are the 2nd order moments defined as:" << endl;
@@ -219,8 +219,8 @@ int main()
   cout << "Important: !! Use realistic values of the covariance: !!" << endl;
   cout << "The value of the moments (i.e., <si> and <si sj>) can variate between 0 and 1," << endl;
   cout << "You must take covariance values such that this is respected." << endl;
-  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)" << endl;
-  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1)," << endl; 
+  cout << "A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that Si=1 is 0.5)" << endl;
+  cout << "\t whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that Si=1 is 0 or 1)," << endl; 
   cout << "\t which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)"<< endl;
   cout << " ==> don’t use exactly 0 or 1" << endl;
 

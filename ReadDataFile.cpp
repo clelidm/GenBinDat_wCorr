@@ -44,7 +44,7 @@ map<uint32_t, unsigned int> read_datafile(string datafilename, unsigned int *N) 
 }
 
 /****************    PRINT Nset in file:    ************************/
-void read_Nset (map<uint32_t, unsigned int> Nset, unsigned int N, string OUTPUTfilename)
+void PrintFile_Nset (map<uint32_t, unsigned int> Nset, unsigned int N, string OUTPUTfilename)
 // map.second = nb of time that the state map.first appears in the data set
 {
   map<uint32_t, unsigned int>::iterator it;
