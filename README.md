@@ -95,4 +95,14 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
  ==> don’t use exactly `0` or `1`
 Pearson correlation coefficient exactly equal to `-1` or `1` are also not reproducible
 
+### Available functions for generating data with a given matrix of Moments, covariance, or correlations:
+
+
+
+### Available functions for generating data with same firing rate and correlation structure than an input dataset:
+
+
+
+
+
 
