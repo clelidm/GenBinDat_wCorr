@@ -45,9 +45,9 @@ Input files must be stored in the INPUT folder. Depending on the functions you a
  - **a model file**, if the chosen model is a pairwise model that is not fully connected; Interactions of the fitted models are provided through a file that contains one interaction per line; interactions can be provided in a binary format, with a `1` for each variable included in the interaction and a `0` for the other variable; see example in `INPUT/Ex_PairwiseModel_n4.dat`;
  - **a "matrix file"**, if you want to generate data with a specific values of a) the moments, or b) the covariance, or c) the Pearson correlation coefficients; see below for details.
  
- #### a) **Specifying the moments** (see example in `INPUT/Matrix/Ex_Moments_n4_Bin.dat`)
+ #### a) **Specifying the matrix of moments** (see example in `INPUT/Matrix/Ex_Moments_n4_Bin.dat`)
  
- The file must contain 1rst and 2nd order moments of the binary variables. The binary variables `Si` must take values `0` or `1`, so that the moments are computed as:
+The file must contain 1rst and 2nd order moments of the binary variables. The binary variables `Si` must take values `0` or `1`, so that the moments are computed as:
  - 1rst order: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data;
 	 	 	 	 --> for neuronal data, this would similar to the firing rate;
  - 2nd order:  `<Si Sj> = P[Si=1 and Sj=1]`,  i.e. the probability that `Si` and `Sj` are both equal to `1` in the data;
@@ -60,5 +60,25 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
 	 which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)
 	 ==> don’t use exactly `0` or `1`
 
+#### b) **Specifying the covariance matrix** (see example in `INPUT/Matrix/Ex_Cov_n4_Bin.dat`)
+
+The file must contain 1rst order moments of the binary variables and the coefficients of the covariance matrix.
+
+The binary variables `Si` should take values `0` or `1`, so that the quantities are computed as:
+ - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data;
+	 	 	 	  --> for neuronal data, that would similar to the firing rate;
+ - Covariance:  `Cov(i,j) = <Si Sj> - <Si> <Sj>` , where `<Si Sj>` are the 2nd order moments defined as:
+	 	 	 	 `<Si Sj> = P[Si=1 and Sj=1]`,  which is the probability that `Si` and `Sj` are both equal to `1` in the data;
+
+The input file should be written following the format of the example file: `INPUT/Matrix/Ex_Cov_n4_Bin.dat`
+
+*Important:* Use realistic values of the covariance:
+
+The value of the moments (i.e., `<si>` and `<si sj>`) can variate between `0` and `1`,
+You must take covariance values such that this is respected.
+A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability that `Si=1` is `0.5`)
+	 whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that `Si=1` is `0` or `1`),
+	 which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)
+ ==> don’t use exactly `0` or `1`
 
 
