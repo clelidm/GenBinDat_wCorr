@@ -104,7 +104,7 @@ The argument `unsigned int *N` is a pointer in which the function will store the
 The dataset is then stored in the a structure `map<uint32_t, unsigned int> Nset` that map each observed states to the number of times they occur in the dataset. 
 You can print this information using the function `void PrintFile_Nset (map<uint32_t, unsigned int> Nset, unsigned int N, string OUTPUTfilename)`, where you can specify the name of the output file as an argument in `string OUTPUTfilename`.
 
-### Define a model:
+### Define a spin model:
 
 A spin model is stored in a list of `Interaction`:  `list<Interaction>`.
 For more information, the structure `Interaction` is defined in `data.h`. 
@@ -114,17 +114,13 @@ Each `Interaction I` contains the following attributes:
  - the value of the model average of the operator `I.Op`, stored in `I.av_M`;  --> this value is initially set to `0`, and can be computed after definition of the model 
  - the value of the empirical average of the operator `I.Op`, stored in `I.av_D` --> this value is initially set to `0`, and can be computed when a dataset is generated.
 
-list_I = list of operators and parameters of the model
+Throughout the program, models (i.e., the list of operators and parameters of the model) are often named starting with `list_I`.
 
 The program offers different ways to define a spin model (i.e., a list of interactions `list<Interaction>`).  These functions are defined in the file `Models_Ex.cpp`. Here is a list:
 
 #### Pre-defined spin models:
  - **Independent model**: the function `list<Interaction> IndepModel(double h=1)` creates an independent model with one field on each spin variable; the value of each field parameters is uniformly sampled over `[-h; +h]`.
  - **Fully connected pairwise model**: the function `list<Interaction> FullyConnectedPairwiseModel(double h=1, double J=1)` creates a fully connected pairwise model, i.e., with a field on each spin  and all the pairwise interactions; the resulting model has `K=n(n+1)/2` interactions. The value of each field parameters is uniformly sampled over `[-h, +h]`; the values of each pairwise parameter is uniformly sampled over `[-J, +J]`.
-
-#### Random spin models:
- - **Random pairwise model**: the function `list<Interaction> Random_PairwiseModel(int Kpair, double h=1, double J=1)` creates a model with all the `n` fields and `Kpair` randomly picked pairwise interactions; in total the model has `K = n+Kpair` interactions; the value of each field parameters is uniformly sampled over `[-h, +h]`; the values of each pairwise parameter is uniformly sampled over `[-J, +J]`.
- - **Random spin model**: the function `list<Interaction> Random_Model(int K, double g=1)` creates a model with `K` randomly picked spin interactions (interactions can be of any order); the value of each parameters is uniformly sampled over `[-g, +g]`.
 
 #### Spin models specified by the user through an input file: (see example 3 in the `int main()` function)
 Specific models can be uploaded through an input file. The input file must have the following form (see example in "INPUT/"):
