@@ -104,7 +104,8 @@ The function map<uint32_t, unsigned int> read_datafile(unsigned int *N) reads th
 
 ### Generate data from the model:
 
-## Available functions for generating data with same firing rate and correlation structure than an input dataset
+## Available functions
+## for generating data with same firing rate and correlation structure than an input dataset
 
 ### Read the matrix of moments, covariance or correlations
 
