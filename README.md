@@ -99,7 +99,14 @@ Pearson correlation coefficient exactly equal to `-1` or `1` are also not reprod
 
 ### Read the matrix of moments, covariance or correlations
 
-To create a spin model that can reproduce specific values of first and second moments of the binary variables, we first generated a fully connected pairwise model and then fits its parameters to reproduce the specified moments.
+To create a spin model that can reproduce specific values of first and second moments of the binary variables, we first need to generated a fully connected pairwise model and then fits its parameters to reproduce the specified moments.
+
+There are three functions that can create such pairwise model:
+ - `list<Interaction> ModelFrom_MomentMatrix(string MomentMatrix_File, bool *error)` must be used when the input file contains the 1rst and 2nd order moments;
+ - `list<Interaction> ModelFrom_CovMatrix(string CovMatrix_File, bool *error)` must be used when the input file contains the covariance matrix coefficients;
+ - `list<Interaction> ModelFrom_CorrMatrix(string CorrMatrix_File, bool *error)` must be used when the input file contains the Pearson correlation coefficients;
+See section `INPUT and OUTPUT files` for more information on the input files for each case.
+Each of this three functions creates a fully connected pairwise model, and stores it in the returned list `list<Interaction>` together with the values of the first and second order moments that will be used for the fit.
 
 ### Fit the data with a model:
 
