@@ -82,21 +82,21 @@ A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability
 #### c) **Specifying the Pearson correlation matrix** (see example in `INPUT/Matrix/Ex_Cov_n4_Bin.dat`)
 
 The file must contain 1rst order moments of the binary variables and the correlation coefficients. The binary variables `Si` should take values `0` or `1`, so that the quantities are computed as:
- - 1rst order moment: <Si> = P[Si=1] in the data,  i.e. the probability that Si is equal to 1 in the data;
+ - 1rst order moment: `<Si> = P[Si=1]` in the data,  i.e. the probability that `Si` is equal to `1` in the data;
 	 	 	 	  --> for neuronal data, that would similar to the firing rate;
- - Correlation Coeff:  Corr(i,j) = (<Si Sj> - <Si> <Sj>)/sig_i/sig_j , where <Si Sj> are the 2nd order moments defined as:
-	 	 	 	 <Si Sj> = P[Si=1 and Sj=1],  which is the probability that Si and Sj are both equal to 1 in the data;
-	 	 and where sig_i is the standard deviation of Si defined as:
-	 	 	 	 sig_i = std(<Si^2> - <Si>^2), which is equal to sig_i = std(<Si> - <Si>^2) for the binary variable Si in {0,1}
+ - Correlation Coeff:  `Corr(i,j) = (<Si Sj> - <Si> <Sj>)/sig_i/sig_j` , where `<Si Sj>` are the 2nd order moments defined as:
+	 	 	 	 `<Si Sj> = P[Si=1 and Sj=1]`,  which is the probability that `Si` and `Sj` are both equal to `1` in the data;
+	 	 and where `sig_i` is the standard deviation of `Si` defined as:
+	 	 	 	 `sig_i = std(<Si^2> - <Si>^2)`, which is equal to `sig_i = std(<Si> - <Si>^2)` for the binary variable `Si` in `{0,1}`
 
-The input file should be written following the format of the example file: INPUT/Matrix/Ex_Cov_n4_Bin.dat
-Important: !! Use realistic values !!
-Pearson correlation coefficients can take any values between -1 and 1
-The value of the moments (i.e., <si> and <si sj>) can variate between 0 and 1,
-A moment equal to 0.5 corresponds to an unbiased observable (e.g., probability that si=1 is 0.5)
-	 whereas a moment equal to 0 or 1 corresponding to an extreme biased observable (e.g., probability that si=1 is 0 or 1),
+The input file should be written following the format of the example file: `INPUT/Matrix/Ex_Cov_n4_Bin.dat`
+*Important:* Use realistic values of Pearson correlation:
+Pearson correlation coefficients can take any values between `-1` and `1`.
+The value of the moments (i.e., `<si>` and `<si sj>`) can variate between `0` and `1`,
+A moment equal to `0.5` corresponds to an unbiased observable (e.g., probability that `Si=1` is `0.5`)
+	 whereas a moment equal to `0` or `1` corresponding to an extreme biased observable (e.g., probability that `Si=1` is `0` or `1`),
 	 which are impossible to reproduce with the probabilistic model (they will give you parameters with infinite values)
- ==> don’t use exactly 0 or 1
-Pearson correlation coefficient exactly equal to -1 or 1 are also not reproducible
+ ==> don’t use exactly `0` or `1`
+Pearson correlation coefficient exactly equal to `-1` or `1` are also not reproducible
 
 
