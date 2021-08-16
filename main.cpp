@@ -278,13 +278,13 @@ int main()
 
   Initialise_RandGenerator();
 
-  cout << endl << "***********  Ex 4. from the model inferred from the matrix of Correlations:  **************" << endl;
-
-  string OutputFile_Ex_DataFromCorr = OUTPUT_directory + "FromCorrelations";
-  string OUTPUT_Data = OutputFile_Ex_DataFromCorr + "_Data.dat";
-  string OUTPUT_Data_Info = OutputFile_Ex_DataFromCorr + "_Model_AND_Data_Info.dat";
+  cout << endl << "***********  Ex 4.a from the model inferred from the Covariance matrix:  **************" << endl;
 
   unsigned int N_new = 1e5;
+
+  string OutputFile_Ex_Data = OUTPUT_directory + "FromCovariance";
+  string OUTPUT_Data = OutputFile_Ex_Data + "_Data.dat";
+  string OUTPUT_Data_Info = OutputFile_Ex_Data + "_Model_AND_Data_Info.dat";
 
   cout << "Generate a dataset with N = " << N_new << " datapoints, stored in " << OUTPUT_Data << endl << endl;
   SampleData_AND_SaveDataInfo_Bin(list_I_CovMatrix_Bin, OUTPUT_Data, N_new);
@@ -297,8 +297,12 @@ int main()
   map<uint32_t, unsigned int> Nset_Bin = read_datafile(OUTPUT_Data, &N_new);  //  double Nd = (double) N;
   Print_Term_CorrelationMatrix(CorrelationMatrix(Nset_Bin, N_new));
 
-  cout << "***********" << endl;
-  OUTPUT_Data = OutputFile_Ex_DataFromCorr + "_Data2.dat";
+  cout << endl << "***********  Ex 4.b from the model inferred from the matrix of Correlations:  **************" << endl;
+
+  OutputFile_Ex_Data = OUTPUT_directory + "FromCorr";
+  OUTPUT_Data = OutputFile_Ex_Data + "_Data.dat";
+  OUTPUT_Data_Info = OutputFile_Ex_Data + "_Model_AND_Data_Info.dat";
+
   cout << "Generate a second dataset with N = " << N_new << " datapoints based on the same correlation matrix." << endl;
   cout << "Dataset is stored in " << OUTPUT_Data << endl << endl;
   SampleData_Bin(list_I_CovMatrix_Bin, OUTPUT_Data, N_new);
