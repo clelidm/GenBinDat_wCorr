@@ -120,6 +120,7 @@ list<double> Read_Input_MatrixFile(string Input_Matrix_File)
     }
     myfile.close();
   }
+  else { cout << "File couldn't be opened." << endl; }
   //cout << list_MatrixValues.size() << endl;
 
   return list_MatrixValues;

@@ -193,6 +193,7 @@ int main()
 
   cout << "***********" << endl;
   bool error = false;
+  cout << "Read file in: " << InputFile_Ex_Moments << endl;
   list<Interaction> list_I_MomentMatrix_Bin = ModelFrom_MomentMatrix(InputFile_Ex_Moments, &error);
   if (!error)
   {
@@ -225,6 +226,7 @@ int main()
   cout << " ==> don’t use exactly 0 or 1" << endl;
 
   cout << "***********" << endl;
+  cout << "Read file in: " << InputFile_Ex_Cov << endl;
   list<Interaction> list_I_CovMatrix_Bin = ModelFrom_CovMatrix(InputFile_Ex_Cov, &error);
   if (!error)
   {
@@ -260,6 +262,7 @@ int main()
   cout << "Pearson correlation coefficient exactly equal to -1 or 1 are also not reproducible" << endl;
 
   cout << "***********" << endl;
+  cout << "Read file in: " << InputFile_Ex_Corr << endl;
   list<Interaction> list_I_CorrMatrix_Bin = ModelFrom_CorrMatrix(InputFile_Ex_Corr, &error);
   if (!error)
   {
