@@ -305,7 +305,11 @@ int main()
 
   cout << "Generate a second dataset with N = " << N_new << " datapoints based on the same correlation matrix." << endl;
   cout << "Dataset is stored in " << OUTPUT_Data << endl << endl;
-  SampleData_Bin(list_I_CovMatrix_Bin, OUTPUT_Data, N_new);
+  SampleData_Bin(list_I_CorrMatrix_Bin, OUTPUT_Data, N_new);
+
+  cout << "Correlation matrix of the generated data:" << endl;
+  map<uint32_t, unsigned int> Nset_Corr_Bin = read_datafile(OUTPUT_Data, &N_new);  //  double Nd = (double) N;
+  Print_Term_CorrelationMatrix(CorrelationMatrix(Nset_Corr_Bin, N_new));
 
   return 0;
 }
