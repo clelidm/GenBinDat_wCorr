@@ -175,7 +175,7 @@ int main()
 
   cout << endl << "*********************  Ex 3.a. from the matrix of moments:  *******************************" << endl;
 
-  string InputFile_Ex_Moments = "INPUT/Matrix/Ex_Moments_n4_Bin.dat";
+  string InputFile_Ex_Moments = INPUT_directory + "Matrix/Ex_Moments_n4_Bin.dat";
   unsigned int N_Matrix = 1000;  // number of datapoints in the datafile for which the correlation matrix is provided 
 
   cout << "The file should contain 1rst and 2nd order moments of the binary variables." << endl << endl;
@@ -205,7 +205,7 @@ int main()
 
   cout << endl << "*********************  Ex 3.b. from the covariance matrix:  *******************************" << endl;
 
-  string InputFile_Ex_Cov = "INPUT/Matrix/Ex_Cov_n4_Bin.dat";
+  string InputFile_Ex_Cov = INPUT_directory + "Matrix/Ex_Cov_n4_Bin.dat";
 
   cout << "The file should contain 1rst order moments of the binary variables and the coefficients of the covariance matrix." << endl << endl;
   cout << "The binary variables Si should take values `0` or `1`, so that these quantities are computed as:" << endl;
@@ -238,7 +238,7 @@ int main()
 
   cout << endl << "*********************  Ex 3.c. from Pearson correlation matrix:  *************************" << endl;
 
-  string InputFile_Ex_Corr = "INPUT/Matrix/Ex_PearsonCorr_n4_Bin.dat";
+  string InputFile_Ex_Corr = INPUT_directory + "Matrix/Ex_PearsonCorr_n4_Bin.dat";
 
   cout << "The file should contain 1rst order moments of the binary variables and the correlation coefficients." << endl << endl;
   cout << "The binary variables Si should take values `0` or `1`, so that the quantities are computed as:" << endl;
